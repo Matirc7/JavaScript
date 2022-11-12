@@ -48,11 +48,12 @@ function createCards ( events ) {
         <h5 class="card-title">${events.name}</h5>
         <p class="card-text">${events.description}</p>
         <div class="info-cards"></div>
-        <p class="valor-card" >$${events.price}<a name="${events.name}" class="ancors-cards" href="./details.html?id=${events._id}" role="button" >ver mas...</a> </p>
+        <p class="valor-card" >$${events.price}<a name="${events.name}" class="ancors-cards" href="./details.html?id=${events._id}" role="button" >View more...</a> </p>
     </div>`
     return divCard
 }
 
+//imprimir cards
 
 function printCards( events, contenedor ) {
 
@@ -75,11 +76,15 @@ printCards (events, element)
 checkSearch.addEventListener ('submit', (e) => {
     e.preventDefault()
     let datosCheck = Array.from(document.querySelectorAll("input[type='checkbox']:checked")).map(input => input.value)
+
+
     let filtros = filtrarCheck (events, datosCheck) 
 
 
     let datosSearch = Array.from(document.querySelectorAll("input[type='search']")).map(input => input.value)
     let valueSearch = datosSearch.toString().toLowerCase()
+
+    
     let checkSearchFilter = filtrarSearch(filtros, valueSearch)
     printCards(checkSearchFilter, element)
 })
