@@ -1,5 +1,4 @@
-let element = document.querySelector(".cards-section")
-let events = data.events
+const element = document.querySelector(".cards-section")
 let fragmento = document.createDocumentFragment ();
 let checkSearch = document.getElementById("check-search")
 const contenedorCheck = document.getElementById('checkbox')
@@ -8,34 +7,22 @@ const contenedorCheck = document.getElementById('checkbox')
 //FILTRAR CHECK
 
 
-const misCategorias = (events) =>events.category
-
-
-const categories = new Set (events.map(misCategorias))
-
-const arrayCategories = Array.from(categories)
-
-
-
-
 function createChek (valores, contenedor){
 
     let template = ' '
-
+    
     valores.forEach( values => template += ` 
-                        <label class="form-check-label" for="${values}">
-                            <input class="form-check-input" type="checkbox" value="${values}" name="" id="${values}" checked autocomplete="off"> ${values}
-                        </label> ` 
-        
+    <label class="form-check-label" for="${values}">
+    <input class="form-check-input" type="checkbox" value="${values}" name="" id="${values}" checked autocomplete="off"> ${values}
+    </label> ` 
+    
     );
-
+    
     contenedor.innerHTML = template
 }
 
 
 
-
-createChek (arrayCategories, contenedorCheck)
 
 
 function createCards ( events ) {
@@ -49,45 +36,23 @@ function createCards ( events ) {
         <p class="card-text">${events.description}</p>
         <div class="info-cards"></div>
         <p class="valor-card" >$${events.price}<a name="${events.name}" class="ancors-cards" href="./details.html?id=${events._id}" role="button" >View more...</a> </p>
-    </div>`
-    return divCard
+        </div>`
+        return divCard
 }
 
 //imprimir cards
 
 function printCards( events, contenedor ) {
-
+    
     contenedor.innerHTML = ''
-
+    
     let fragment = document.createDocumentFragment()
-
+    
     events.forEach( events => fragment.appendChild (createCards (events) ) )
-
+    
     contenedor.appendChild (fragment)
 }
 
-printCards (events, element)
-
-
-
-
-
-
-checkSearch.addEventListener ('submit', (e) => {
-    e.preventDefault()
-    let datosCheck = Array.from(document.querySelectorAll("input[type='checkbox']:checked")).map(input => input.value)
-
-
-    let filtros = filtrarCheck (events, datosCheck) 
-
-
-    let datosSearch = Array.from(document.querySelectorAll("input[type='search']")).map(input => input.value)
-    let valueSearch = datosSearch.toString().toLowerCase()
-
-    
-    let checkSearchFilter = filtrarSearch(filtros, valueSearch)
-    printCards(checkSearchFilter, element)
-})
 
 
 
@@ -106,3 +71,43 @@ function filtrarSearch (events, value) {
     return searchFilter
 }
 
+
+fetch("https://amazing-events.herokuapp.com/api/events")
+.then(response => response.json())
+.then( data => {
+    const eventsData = data
+        const eventsInfo = eventsData.events
+        
+        const misCategorias = (eventsInfo) =>eventsInfo.category
+        const categories = new Set (eventsInfo.map(misCategorias))
+        const arrayCategories = Array.from(categories)
+        // const categorias = Array.from( new Set (eventsInfo.map(events => events.category)) )
+        
+
+        createChek (arrayCategories, contenedorCheck)
+        
+        printCards (eventsInfo, element)
+
+        
+        checkSearch.addEventListener ('submit', (e) => {
+            e.preventDefault()
+            let datosCheck = Array.from(document.querySelectorAll("input[type='checkbox']:checked")).map(input => input.value)
+        
+        
+            let filtros = filtrarCheck (eventsData, datosCheck) 
+        
+        
+            let datosSearch = Array.from(document.querySelectorAll("input[type='search']")).map(input => input.value)
+            let valueSearch = datosSearch.toString().toLowerCase()
+        
+            
+            let checkSearchFilter = filtrarSearch(filtros, valueSearch)
+            printCards(checkSearchFilter, element)
+
+
+
+        })
+
+    } )
+
+    .catch(error => console.log(error))
