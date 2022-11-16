@@ -14,12 +14,12 @@ function imprimirTable(datos, contenedor){
 }
 
 function capacidad ( personas ) {
-    return personas.map(p => p ).sort(( b, a ) => (a.capacity) - b.capacity )
+    return personas.map(p => p ).sort(( a, b ) => (b.capacity) - a.capacity )
 }
 
 
 function porcentaje ( personas ) {
-    return personas.map(p => p ).sort(( b, a ) => ((a.assistance * 100) / a.capacity ) - (b.assistance * 100 ) / b.capacity )
+    return personas.map(p => p ).sort(( a, b ) => ((b.assistance * 100) / b.capacity ) - (a.assistance * 100 ) / a.capacity )
 }
 
 function printEvents (mayorP, menorP, masC){
@@ -42,10 +42,10 @@ function printEvents (mayorP, menorP, masC){
 
 function eventsStats( informacion ){
     const attendanceEvents = porcentaje(informacion)
-    const highAttendance = attendanceEvents[0]  //mas porcentaje
-    const lowAttendance = attendanceEvents [attendanceEvents.length - 1]//menor porcentaje
+    const highAttendance = attendanceEvents[0]
+    const lowAttendance = attendanceEvents [attendanceEvents.length - 1]
     const capacity = capacidad( informacion )
-    const highCapacity  = capacity[0]//mas capacidad
+    const highCapacity  = capacity[0]
 
     printEvents(highAttendance, lowAttendance, highCapacity) 
 }
