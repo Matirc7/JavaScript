@@ -95,7 +95,7 @@ fetch("https://amazing-events.herokuapp.com/api/events")
         let datosCheck = Array.from(document.querySelectorAll("input[type='checkbox']:checked")).map(input => input.value)
         
         
-        let filtros = filtrarCheck (eventosFuturos, datosCheck) 
+        let filtros = filtrarCheck (eventosPasados, datosCheck) 
         
         
         let datosSearch = Array.from(document.querySelectorAll("input[type='search']")).map(input => input.value)
